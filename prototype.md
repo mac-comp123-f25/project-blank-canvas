@@ -1,7 +1,7 @@
 # Pomodoro Timer
 
 ## 1. Main Timer Screen
-This screen shows the timer countdown and primary controls (start, pause).
+This screen shows the timer countdown and primary controls (start, pause). Users can enter the setting page and task page from here.
 
 **Sketch**
 ![main_timer](images/main_timer.jpg)
