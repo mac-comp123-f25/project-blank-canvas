@@ -1,5 +1,6 @@
 import tkinter as tk
 import math
+import os
 
 # --- 文本和翻译库 (无变动) ---
 TEXTS = {
@@ -20,7 +21,8 @@ LONG_BREAK_MIN = 15
 reps = 0
 timer = None
 
-# --- 函数定义 (无变动) ---
+
+# --- 函数定义 ---
 def start_timer():
     global reps
     reps += 1
@@ -42,7 +44,8 @@ def count_down(count):
     if seconds < 10:
         seconds = f"0{seconds}"
 
-    canvas.itemconfig(timer_text, text=f"{minutes}:{seconds}")
+    # --- 修改: 更新 timer_label 的文本 ---
+    timer_label.config(text=f"{minutes}:{seconds}")
 
     if count > 0:
         global timer
@@ -60,10 +63,14 @@ def reset_timer():
     global reps
     if timer:
         window.after_cancel(timer)
-    canvas.itemconfig(timer_text, text="00:00")
+
+    # --- 修改: 重置 timer_label 的文本 ---
+    timer_label.config(text="00:00")
+
     title_label.config(text=TEXTS['title'][current_language])
     checkmark_label.config(text="")
     reps = 0
+
 
 def set_language(lang_code):
     global current_language
@@ -76,45 +83,45 @@ def set_language(lang_code):
     if reps == 0:
         title_label.config(text=TEXTS['title'][current_language])
 
+
 # --- UI 界面设置 ---
 window = tk.Tk()
 window.title(TEXTS['title'][current_language])
-# --- 修改: 移除窗口的背景色设置, 只保留边距 ---
 window.config(padx=50, pady=25)
 
-# --- 新增: 加载并设置背景图片 ---
-# 确保 "background.gif" 文件和此脚本在同一个目录下
-background_image = tk.PhotoImage(file="background.GIF")
+# --- 设置背景图片 (无变动) ---
+script_directory = os.path.dirname(os.path.abspath(__file__))
+image_path = os.path.join(script_directory, "background.GIF")
+
+background_image = tk.PhotoImage(file=image_path)
 background_label = tk.Label(window, image=background_image)
 background_label.place(x=0, y=0, relwidth=1, relheight=1)
-# 必须保留对图像的引用, 否则它将被Python的垃圾回收机制清除
 background_label.image = background_image
+background_label.lower()
 
-# --- 修改: 移除 title_label 的背景色, 使其透明 ---
+# --- UI 控件 ---
 title_label = tk.Label(text=TEXTS['title'][current_language], fg="#d13a30", font=("Helvetica", 35))
 title_label.pack()
 
-# --- 修改: 移除 Canvas 的背景色, 使其透明 ---
-canvas = tk.Canvas(width=200, height=120, highlightthickness=0)
-timer_text = canvas.create_text(100, 60, text="00:00", fill="#333333", font=("Helvetica", 35, "bold"))
-canvas.pack()
+# --- 关键修改: 使用 Label 代替 Canvas 来显示时间 ---
+# Label 会自动调整大小以适应文本, 从而最大限度地减少 "遮挡"
+timer_label = tk.Label(text="00:00", fg="#333333", font=("Helvetica", 35, "bold"))
+timer_label.pack()
 
-# 按钮通常有自己的样式, 无需修改背景
+# (原有的 Canvas 代码已被完全删除)
+
 start_button = tk.Button(text=TEXTS['start'][current_language], command=start_timer, font=("Helvetica", 14))
 start_button.pack(pady=5)
 
 reset_button = tk.Button(text=TEXTS['reset'][current_language], command=reset_timer, font=("Helvetica", 14))
 reset_button.pack(pady=5)
 
-# --- 修改: 移除 checkmark_label 的背景色, 使其透明 ---
 checkmark_label = tk.Label(fg="#00aa55", font=("Helvetica", 20))
 checkmark_label.pack(pady=5)
 
-# --- 修改: 移除 lang_frame 的背景色, 使其透明 ---
 lang_frame = tk.Frame(window)
 lang_frame.pack(pady=10)
 
-# 按钮通常有自己的样式, 无需修改背景
 english_button = tk.Button(lang_frame, text="English", font=("Helvetica", 10), command=lambda: set_language('en'))
 english_button.pack(side="left", padx=5)
 
