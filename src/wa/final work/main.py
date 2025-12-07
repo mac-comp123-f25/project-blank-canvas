@@ -2,7 +2,6 @@ import tkinter as tk
 import math
 import os
 
-# --- 文本和翻译库 (无变动) ---
 TEXTS = {
     'title': {'en': "pomodoro", 'zh': "番茄钟", 'es': "pomodoro"},
     'start': {'en': "start", 'zh': "开始", 'es': "iniciar"},
@@ -14,15 +13,12 @@ TEXTS = {
 
 current_language = 'en'
 
-# --- 代码常量 (无变动) ---
 WORK_MIN = 25
 SHORT_BREAK_MIN = 5
 LONG_BREAK_MIN = 15
 reps = 0
 timer = None
 
-
-# --- 函数定义 ---
 def start_timer():
     global reps
     reps += 1
@@ -44,7 +40,6 @@ def count_down(count):
     if seconds < 10:
         seconds = f"0{seconds}"
 
-    # --- 修改: 更新 timer_label 的文本 ---
     timer_label.config(text=f"{minutes}:{seconds}")
 
     if count > 0:
@@ -64,7 +59,6 @@ def reset_timer():
     if timer:
         window.after_cancel(timer)
 
-    # --- 修改: 重置 timer_label 的文本 ---
     timer_label.config(text="00:00")
 
     title_label.config(text=TEXTS['title'][current_language])
@@ -83,13 +77,10 @@ def set_language(lang_code):
     if reps == 0:
         title_label.config(text=TEXTS['title'][current_language])
 
-
-# --- UI 界面设置 ---
 window = tk.Tk()
 window.title(TEXTS['title'][current_language])
 window.config(padx=50, pady=25)
 
-# --- 设置背景图片 (无变动) ---
 script_directory = os.path.dirname(os.path.abspath(__file__))
 image_path = os.path.join(script_directory, "background.GIF")
 
@@ -99,16 +90,11 @@ background_label.place(x=0, y=0, relwidth=1, relheight=1)
 background_label.image = background_image
 background_label.lower()
 
-# --- UI 控件 ---
 title_label = tk.Label(text=TEXTS['title'][current_language], fg="#d13a30", font=("Helvetica", 35))
 title_label.pack()
 
-# --- 关键修改: 使用 Label 代替 Canvas 来显示时间 ---
-# Label 会自动调整大小以适应文本, 从而最大限度地减少 "遮挡"
 timer_label = tk.Label(text="00:00", fg="#333333", font=("Helvetica", 35, "bold"))
 timer_label.pack()
-
-# (原有的 Canvas 代码已被完全删除)
 
 start_button = tk.Button(text=TEXTS['start'][current_language], command=start_timer, font=("Helvetica", 14))
 start_button.pack(pady=5)
