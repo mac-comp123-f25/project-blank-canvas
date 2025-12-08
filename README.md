@@ -31,7 +31,7 @@ This window will display all the output from your script or any error messages i
 
 What does the expected output look like? You can use one or more screenshots of the main features.
 
-![main_timer](images/README picture1.png)
+![main_timer](images/README_picture1.png)
 
 ![main_timer](images/README picture2.png)
 
