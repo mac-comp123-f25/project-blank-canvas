@@ -33,9 +33,9 @@ What does the expected output look like? You can use one or more screenshots of 
 
 ![main_timer](images/README_picture1.png)
 
-![main_timer](images/README picture2.png)
+![main_timer](images/README_picture2.png)
 
-![main_timer](images/README picture3.png)
+![main_timer](images/README_picture3.png)
 
-![main_timer](images/README picture4.png)
+![main_timer](images/README_picture4.png)
 
